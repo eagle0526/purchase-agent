@@ -1,5 +1,5 @@
 """
-ASGI config for purchase_gent project.
+ASGI config for purchase_agent project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'purchase_gent.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'purchase_agent.settings')
 
 application = get_asgi_application()
