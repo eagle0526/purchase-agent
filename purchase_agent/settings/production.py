@@ -3,6 +3,8 @@ from .base import *
 DEBUG = True  # 暫時改為 True 來查看詳細錯誤信息
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '*']  # 開發環境可以用 '*'
+
 
 # 添加日誌配置
 LOGGING = {

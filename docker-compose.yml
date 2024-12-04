@@ -4,11 +4,13 @@ services:
   web:
     build: .
     container_name: purchase-agent-web
+    # 使用 python manage.py runserver，它本身就支持熱重載
     command: >
       bash -c "python manage.py migrate &&
                python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - .:/srv
+      - .:/srv  # 掛載當前目錄到容器的 /srv
+      - python_packages:/usr/local/lib/python3.10/site-packages/  # 緩存 Python 包
     ports:
       - "8000:8000"
     environment:
@@ -17,9 +19,13 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_HOST=db
-      - ALLOWED_HOSTS=localhost,127.0.0.1
+      - ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
+      - PYTHONDONTWRITEBYTECODE=1  # 防止生成 .pyc 文件
+      - PYTHONUNBUFFERED=1  # 實時輸出日誌
     depends_on:
       - db
+    # 添加重啟策略
+    restart: unless-stopped
 
   db:
     image: postgres:15
@@ -30,6 +36,9 @@ services:
       - POSTGRES_DB=purchase_agent
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    # 添加重啟策略
+    restart: unless-stopped
 
 volumes:
   postgres_data:
+  python_packages:  # 新增 volume 用於緩存 Python 包
