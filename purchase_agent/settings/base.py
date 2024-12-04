@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'tailwind',
+
+    # app
+    'main',
 ]
 
 # tailwind
